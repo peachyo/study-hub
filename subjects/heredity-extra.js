@@ -1,7 +1,7 @@
 /* Heredity study aids: glossary, probability how-to, calculators, extra practice. Loaded after heredity.js */
 (function () {
   "use strict";
-  var LVL = "0 · Learning aids";
+  var LVL = "5 · Learning aids";
 
   /* ---------- helpers ---------- */
   function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = a % b; a = b; b = t; } return a || 1; }
@@ -532,7 +532,7 @@
     if (!s) return;
     var have = {}; s.concepts.forEach(function (c) { have[c.id] = 1; });
     var fresh = C.filter(function (c) { return !have[c.id]; });
-    s.concepts = fresh.concat(s.concepts);
+    s.concepts = s.concepts.concat(fresh);
     var haveQ = {}; s.questions.forEach(function (q) { haveQ[q.id] = 1; });
     X.concat(window.HEREDITY_BULLSO || [], window.HEREDITY_UT || []).forEach(function (q) { if (!haveQ[q.id]) s.questions.push(q); });
     s.description = "Terminology, probability how-tos and calculators, plus the 2027 Starter Pack concepts and practice from many invitational, regional, state and national tests (Division B).";
