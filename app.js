@@ -117,6 +117,11 @@
     var c = concepts[idx];
     setCrumbs([{ text: "Dashboard", href: "#/" }, { text: s.title, href: "#/s/" + enc(sid) }, { text: c.title }]);
 
+    // remember the sidebar's scroll position so a re-render does not jump it back to the top
+    var oldTree = document.querySelector(".sh-tree");
+    var keepScroll = oldTree && window.__treeSid === sid ? oldTree.scrollTop : null;
+    window.__treeSid = sid;
+
     app.innerHTML = "";
     app.appendChild(subjectHeader(s, "concepts"));
     var layout = el("div", { class: "sh-layout" });
@@ -163,6 +168,14 @@
     ]));
     layout.appendChild(main);
     app.appendChild(layout);
+    if (keepScroll !== null) tree.scrollTop = keepScroll;
+    var on = tree.querySelector("a.on");
+    if (on && tree.scrollHeight > tree.clientHeight) { // make sure the selected item is visible inside the sidebar
+      // position of the item inside the tree's scrollable content (independent of the page scroll / sticky offset)
+      var top = on.getBoundingClientRect().top - tree.getBoundingClientRect().top + tree.scrollTop, bottom = top + on.offsetHeight;
+      if (top < tree.scrollTop) tree.scrollTop = top - 40;
+      else if (bottom > tree.scrollTop + tree.clientHeight) tree.scrollTop = bottom - tree.clientHeight + 40;
+    }
     if (location.hash.indexOf("/c/") >= 0 && window.__jumpReady) {
       if (MOBILE.matches) setTreeOpen(tree, false);
       article.scrollIntoView({ block: "start" });
@@ -183,6 +196,10 @@
       if (window.CbDeck) window.CbDeck.mount(slideBox);
     }
     if (c.definition) box.appendChild(el("p", { class: "def", text: c.definition }));
+    if (c.body) { var bodyBox = el("div", { class: "hx" }); bodyBox.innerHTML = c.body; box.appendChild(bodyBox); }
+    if (c.widget && window.HWidgets && window.HWidgets[c.widget]) {
+      var wBox = el("div", { class: "hx-widget" }); box.appendChild(wBox); window.HWidgets[c.widget](wBox);
+    }
     if (c.points && c.points.length) {
       var ul = el("ul");
       c.points.forEach(function (p) { ul.appendChild(el("li", { text: p })); });
