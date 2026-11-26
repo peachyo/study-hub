@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 110" role="img" aria-label="oncase.ai">
+  <circle cx="50" cy="55" r="50" fill="#0969da"/>
+  <text x="50" y="72" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="46" font-weight="800" fill="#ffffff" letter-spacing="-1">OC</text>
+  <text x="118" y="76" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="60" font-weight="700" fill="#1f2328" letter-spacing="-1.5">oncase<tspan fill="#0969da">.ai</tspan></text>
+</svg>
